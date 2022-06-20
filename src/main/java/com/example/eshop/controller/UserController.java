@@ -1,23 +1,23 @@
 package com.example.eshop.controller;
 
-import com.example.eshop.service.UserService;
+import com.example.eshop.registration.RegistrationRequest;
+import com.example.eshop.registration.RegistrationService;
+import com.example.eshop.service.UserServiceImpl;
+import com.example.eshop.user.User;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RequestMapping(path = "api/v2/registration")
+@RestController
+@AllArgsConstructor
 public class UserController {
 
-    private UserService userService;
+    private final RegistrationService registrationService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping("/users")
-    public String getAllUsers(Model model){
-        model.addAttribute("users", userService.getAllUsers());
-
-        return "users";
+    @PostMapping
+    public String register(@RequestBody RegistrationRequest request) {
+        return registrationService.register(request);
     }
 }
