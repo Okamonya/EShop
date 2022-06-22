@@ -1,5 +1,6 @@
 package com.example.eshop.registration;
 
+import com.example.eshop.email.EmailSender;
 import com.example.eshop.service.UserServiceImpl;
 import com.example.eshop.token.TokenConfirmation;
 import com.example.eshop.token.TokenConfirmationService;
@@ -39,7 +40,8 @@ public class RegistrationService {
 
                 )
         );
-        String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
+
+        String link = "http://localhost:8080/api/v2/registration/confirm?token=" + token;
         emailSender.send(
                 request.getEmail(),
                 buildEmail(request.getFirstName(), link));
@@ -67,6 +69,7 @@ public class RegistrationService {
         tokenConfirmationService.setConfirmedAt(token);
         userServiceImpl.enableUser(
                 tokenConfirmation.getUser().getEmail());
+
         return "confirmed";
     }
 
